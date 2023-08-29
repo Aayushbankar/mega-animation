@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <title>Mega Animation Web</title>
+</head>
+<body class="bg-gray-100">
+    <!-- Parallax section -->
+    <div class="parallax-section relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="matrix-background"></div>
+        <div class="absolute inset-0 parallax-trigger bg-gradient-to-r from-purple-500 to-pink-500"></div>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+            <h1 id="parallax-typed-text" class="text-white text-4xl font-bold"></h1>
+        </div>
+    </div>
+    
+    <!-- Particle section -->
+    <div class="particle-section h-screen flex items-center justify-center bg-gray-300">
+        <div class="particles" id="particle-container"></div>
+    </div>
+
+    <!-- Card section -->
+    <div class="card-section h-screen flex items-center justify-center">
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold">3D Card Flip</h2>
+                    <p>This is the front of the card.</p>
+                </div>
+                <div class="flip-card-back bg-blue-500 rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-white">3D Card Flip</h2>
+                    <p>This is the back of the card.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional flip cards -->
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold">Another Card</h2>
+                    <p>This is the front of another card.</p>
+                </div>
+                <div class="flip-card-back bg-green-500 rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-white">Another Card</h2>
+                    <p>This is the back of another card.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flip-card">
+            <div class="flip-card-inner">
+                <div class="flip-card-front bg-white rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold">Yet Another Card</h2>
+                    <p>This is the front of yet another card.</p>
+                </div>
+                <div class="flip-card-back bg-purple-500 rounded-lg shadow-md p-8">
+                    <h2 class="text-2xl font-bold text-white">Yet Another Card</h2>
+                    <p>This is the back of yet another card.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Canvas section -->
+    <div class="canvas-section h-screen flex items-center justify-center bg-gray-800">
+        <canvas id="canvas-animation" class="w-full h-full"></canvas>
+        <h2 class="text-2xl font-bold text-white">Unleash Your Creativity</h2>
+    </div>
+    
+    <!-- Scroll-trigger section -->
+    <div class="scroll-trigger-section h-screen flex items-center justify-center bg-gray-300">
+        <div class="scroll-trigger-content opacity-0 transform translate-y-5 transition duration-500 ease-in-out">
+            <h2 class="text-2xl font-bold scroll-trigger-text">Scroll to Reveal More</h2>
+        </div>
+    </div>
+    
+    <script>
+        const parallaxTyped = new Typed('#parallax-typed-text', {
+            strings: ["Welcome to Our Mega Animation Web!", "Experience the Magic of Animation!", "Explore Captivating Visuals!"],
+            typeSpeed: 80,
+            backSpeed: 50,
+            backDelay: 2000,
+            startDelay: 1000,
+            loop: true,
+            showCursor: false
+        });
+
+        const parallaxSection = document.querySelector('.parallax-section');
+        const matrixBackground = document.querySelector('.matrix-background');
+
+        parallaxSection.addEventListener('mouseenter', () => {
+            anime({
+                targets: '.matrix-background',
+                translateY: ['-100%', '0%'],
+                duration: 500,
+                easing: 'easeInOutSine'
+            });
+        });
+
+        parallaxSection.addEventListener('mouseleave', () => {
+            anime({
+                targets: '.matrix-background',
+                translateY: ['0%', '-100%'],
+                duration: 500,
+                easing: 'easeInOutSine'
+            });
+        });
+
+        const particleContainer = document.getElementById('particle-container');
+        const particleCount = 500;
+
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.classList.add('particle');
+            particleContainer.appendChild(particle);
+        }
+
+               // Rest of your code...
+               const particles = document.querySelectorAll('.particle');
+
+// Particle animation using anime.js
+anime({
+    targets: particles,
+    translateX: () => anime.random(-50, 50),
+    translateY: () => anime.random(-50, 50),
+    scale: () => anime.random(0.5, 1.5),
+    opacity: [1, 0],
+    delay: anime.stagger(20),
+    duration: 1500,
+    easing: 'easeInOutQuad',
+    loop: true
+});
+
+const flipCards = document.querySelectorAll('.flip-card');
+
+// Flipping the cards on click
+flipCards.forEach(card => {
+    card.addEventListener('click', () => {
+        if (card.classList.contains('flipped')) {
+            card.classList.remove('flipped');
+        } else {
+            card.classList.add('flipped');
+        }
+        anime({
+            targets: card,
+            translateX: [5, -5, 5, -5, 0],
+            duration: 500,
+            easing: 'easeInOutSine',
+        });
+    });
+});
+
+const canvas = document.getElementById('canvas-animation');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+ctx.lineWidth = 5;
+ctx.strokeStyle = '#ff3388';
+ctx.lineCap = 'round';
+ctx.lineJoin = 'round';
+
+let isDrawing = false;
+
+function startDrawing(event) {
+    isDrawing = true;
+    ctx.beginPath();
+    ctx.moveTo(event.clientX, event.clientY);
+}
+
+function draw(event) {
+    if (!isDrawing) return;
+    ctx.lineTo(event.clientX, event.clientY);
+    ctx.stroke();
+}
+
+function stopDrawing() {
+    isDrawing = false;
+    ctx.closePath();
+}
+
+canvas.addEventListener('mousedown', startDrawing);
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', stopDrawing);
+canvas.addEventListener('mouseout', stopDrawing);
+
+const scrollTriggerContent = document.querySelector('.scroll-trigger-content');
+window.addEventListener('scroll', () => {
+    const rect = scrollTriggerContent.getBoundingClientRect();
+    const windowHeight = window.innerHeight;
+
+    if (rect.top < windowHeight && rect.bottom > 0) {
+        scrollTriggerContent.classList.add('opacity-100', 'translate-y-0');
+    } else {
+        scrollTriggerContent.classList.remove('opacity-100', 'translate-y-0');
+    }
+});
+</script>
+</body>
+</html>
+
